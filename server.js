@@ -53,14 +53,13 @@ app.get("/twitchuser/:id", async(req, res) => {
     }
 });
 
-app.get("/twitchemotes", async(req, res) => {
+app.get("/streaminfo/:id", async(req, res) => {
     try {
-        const uri = `https://api.twitch.tv/kraken/chat/emoticons`
+        const uri = `https://api.twitch.tv/kraken/streams/${req.params.id}`
         const response = await axios.get(uri, headers);
-        const jsonStream = fs.createReadStream(response);
-        res.status(200).json(jsonStream.pipe(res));
+        res.status(200).json(response.data);
     } catch (error) {
-        res.status(400).json(error.data);
+        res.status(400).json(error);
     }
 });
 
